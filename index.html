@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generative Art Canvas</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a1a; /* Dark background for contrast */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: sans-serif;
+            color: #eee;
+        }
+        canvas {
+            border: 1px solid #333;
+            background-color: #000; /* Canvas background */
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        .info {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8em;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="artCanvas"></canvas>
+    <div class="info">Refresh to generate new art!</div>
+
+    <script>
+        const canvas = document.getElementById('artCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Function to set canvas dimensions based on window size
+        function setCanvasSize() {
+            canvas.width = window.innerWidth * 0.8; // 80% of window width
+            canvas.height = window.innerHeight * 0.8; // 80% of window height
+        }
+
+        const numElements = 150; // Number of "art elements" to draw
+
+        function drawGenerativeArt() {
+            setCanvasSize(); // Ensure canvas size is correct before drawing
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas for redraw
+
+            // Loop to create multiple visual elements, demonstrating programmatic generation
+            for (let i = 0; i < numElements; i++) {
+                // Creative choice: Random position within the canvas, introducing variety
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+
+                // Creative choice: Varying size, adding visual interest and depth
+                const radius = Math.random() * 20 + 5; // Radius between 5 and 25 pixels
+
+                // Creative choice: HSL color model for easy aesthetic manipulation
+                // Hue (0-360) for color spectrum, Saturation (50-100%) for vibrancy,
+                // Lightness (50-80%) for brightness, creating a soft, luminous palette.
+                const hue = Math.floor(Math.random() * 360); // Full color spectrum
+                const saturation = Math.floor(Math.random() * 50) + 50; // 50-100% saturation
+                const lightness = Math.floor(Math.random() * 30) + 50; // 50-80% lightness
+
+                // Creative choice: Varying transparency (alpha) for depth and blending effects
+                const alpha = Math.random() * 0.6 + 0.2; // Alpha between 0.2 and 0.8
+
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2); // Draw a circle
+                ctx.fillStyle = `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`; // Apply generated color
+                ctx.fill(); // Fill the circle
+
+                // Aesthetic touch: Add a subtle stroke for definition and glow effect
+                ctx.strokeStyle = `hsla(${hue}, ${saturation}%, ${lightness - 20}%, ${alpha * 0.8})`; // Slightly darker stroke
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        // Draw the art when the script loads
+        drawGenerativeArt();
+
+        // Optional: Redraw on window resize to adapt to new dimensions, maintaining aesthetic integrity
+        window.addEventListener('resize', drawGenerativeArt);
+    </script>
+</body>
+</html>
